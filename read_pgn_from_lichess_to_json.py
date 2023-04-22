@@ -23,7 +23,6 @@ for nb_game in range(1,15):
         black = res =  ' '.join(game.headers.get("Black").split(", ")[::-1])
         round = "Ronde {}".format(game.headers.get("Round").split(".")[0])
         winner = game.headers.get("Result")
-        print(round)
         dic["round_{}".format(round)] = {
             "event":event, 'round':round, "round2":nb_game, "white":white, "black":black, "resultat":winner, "moves":{}
         }
@@ -37,5 +36,5 @@ for nb_game in range(1,15):
                 "evaluation_pov_white":node.eval().white().score(mate_score=10000)
             }
 
-with open("./data/data.json", "w") as f:
+with open("./data/games_championnat_monde_echecs_2023.json", "w") as f:
     json.dump(dic, f, indent=4)
