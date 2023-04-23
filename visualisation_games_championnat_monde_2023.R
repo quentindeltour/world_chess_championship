@@ -48,6 +48,7 @@ for (i in seq_along(top_level_keys)) {
 
 # Concatenate the data frames in the list
 combined_df <- setDT(rbindlist(list_rounds, fill=T))
+combined_df[, round:=factor(round, levels = gsub("round_", "", top_level_keys))]
 combined_df = combined_df[!resultat=="*"]
 combined_df[cp_white > 600, cp_white:=600]
 combined_df[cp_white < -600, cp_white:=-600]
