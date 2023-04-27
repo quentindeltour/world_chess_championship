@@ -64,6 +64,10 @@ round_result = combined_df[, .(round, resultat, cp_white, move_number, white, bl
 round_result[, winner := ifelse(resultat=="1/2-1/2", "Match Nul", ifelse(resultat=="1-0", paste("Victoire", white, sep = "\n"), paste("Victoire", black, sep = "\n")))]
 round_result = round_result[, .SD[c(.N)], by=round]
 round_result[, nudge_y := ifelse(resultat=="0-1", 2, -2)]
+round_result[, round_number_result := paste(round, winner)]
+round_result[, round := factor(round, levels=c("Ronde 1", "Ronde 2", "Ronde 3", "Ronde 4", "Ronde 5", "Ronde 6", "Ronde 7", "Ronde 8", "Ronde 9", "Ronde 10", "Ronde 11", "Ronde 12", "Ronde 13"))]
+
+combined_df <- merge(combined_df, round_result[, .(round, round_number_result)], by="round")
 
 #Plot
 ggplot(combined_df, aes(x=move_number/2, y = cp_white/100)) +
@@ -79,7 +83,11 @@ ggplot(combined_df, aes(x=move_number/2, y = cp_white/100)) +
   geom_text(aes(move_number/2, -y, label=black),
             data=round_colors) +
   geom_label_repel(aes(move_number/2, cp_white/100, label = winner), data=round_result, nudge_y = -2, nudge_x=15)+
-  coord_cartesian(clip = "off")
+  coord_cartesian(clip = "off") + 
+  theme(
+    strip.text.x = element_text(
+      size = 10, face = "bold.italic"
+    ))
 
 #Save last plot to png
 ggsave("./output/games_championnat_monde_23.png", width = 1200, height = 675, units = "px", bg = "white", scale = 3)
