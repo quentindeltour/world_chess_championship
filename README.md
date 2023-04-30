@@ -6,7 +6,11 @@ Visualisation of world chess championships
 
 Ding Liren ![China flag](https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/cn.png) faces Ian Nepomniachtchi ![Russian flag](https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/ru.png) for the World 2023 Chess Championships. This matchs took place in Astana (![Kazakh flag](https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/kz.png)) in the month of April 2023.
 
-<img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/cn.png"  width="4" height="3">
+<img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/cn.png">
+
+<img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/ru.png">
+
+<img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/kz.png">
 
 After the 14 games of classical, the match was tied 7 to 7 as both player went back and forth with decisive results. 
 
