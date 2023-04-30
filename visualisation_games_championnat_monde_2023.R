@@ -17,10 +17,9 @@ create_datatable_moves <- function(data_to_pass_to_dataframe){
     setDT(dd)
     
     dd <- transpose(dd, keep.names = "col")
-    setnames(dd, c("id", "move_number", "move", "turn", "proba_white_win", "cp_white"))
+    setnames(dd, c("id", "move_number", "move", "turn", "cp_white"))
     dd <- dd[, move_number:=as.integer(move_number)]
     dd <- dd[, cp_white:=as.integer(cp_white)]
-    dd <- dd[, proba_white_win:=as.double(proba_white_win)]
     return(dd)
   }
 }
@@ -41,7 +40,7 @@ for (i in seq_along(top_level_keys)) {
   dt[, white := data$white]
   dt[, black := data$black]
   dt[, resultat := data$resultat]
-  
+  dt[, type_game:= data$type_game]
   # assign the data.table in our list
   list_rounds[[i]] = dt
 }
@@ -65,7 +64,7 @@ round_result[, winner := ifelse(resultat=="1/2-1/2", "Match Nul", ifelse(resulta
 round_result = round_result[, .SD[c(.N)], by=round]
 round_result[, nudge_y := ifelse(resultat=="0-1", 2, -2)]
 round_result[, round_number_result := paste(round, winner)]
-round_result[, round := factor(round, levels=c("Ronde 1", "Ronde 2", "Ronde 3", "Ronde 4", "Ronde 5", "Ronde 6", "Ronde 7", "Ronde 8", "Ronde 9", "Ronde 10", "Ronde 11", "Ronde 12", "Ronde 13"))]
+round_result[, round := factor(round, levels=c("Ronde 1", "Ronde 2", "Ronde 3", "Ronde 4", "Ronde 5", "Ronde 6", "Ronde 7", "Ronde 8", "Ronde 9", "Ronde 10", "Ronde 11", "Ronde 12", "Ronde 13", "Ronde 14", "Ronde 15", "Ronde 16", "Ronde 17", "Ronde 18"))]
 
 combined_df <- merge(combined_df, round_result[, .(round, round_number_result)], by="round")
 
@@ -77,7 +76,7 @@ ggplot(combined_df, aes(x=move_number/2, y = cp_white/100)) +
   labs(fill = NULL) + 
   theme_minimal() + 
   xlab("Numéro de coup") + ylab("Evaluation (Sotckfish 14)") + 
-  facet_wrap(round~., scales = "free_x") + 
+  facet_wrap(~round, scales = "free_x") + 
   geom_text(aes(move_number/2, y, label=white),
             data=round_colors) +
   geom_text(aes(move_number/2, -y, label=black),
