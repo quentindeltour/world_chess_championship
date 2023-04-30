@@ -51,25 +51,34 @@ combined_df[, round:=factor(round, levels = gsub("round_", "", top_level_keys))]
 combined_df = combined_df[!resultat=="*"]
 combined_df[cp_white > 600, cp_white:=600]
 combined_df[cp_white < -600, cp_white:=-600]
+combined_df[, round := paste0(round," (", resultat, ")")]
+combined_df[, round := factor(round, levels=c("Ronde 1 (1/2-1/2)", "Ronde 2 (0-1)", "Ronde 3 (1/2-1/2)", "Ronde 4 (1-0)", "Ronde 5 (1-0)", "Ronde 6 (1-0)", "Ronde 7 (1-0)", "Ronde 8 (1/2-1/2)", "Ronde 9 (1/2-1/2)", "Ronde 10 (1/2-1/2)", "Ronde 11 (1/2-1/2)", "Ronde 12 (1-0)", "Ronde 13 (1/2-1/2)", "Ronde 14 (1/2-1/2)", "Ronde 15 (1/2-1/2)", "Ronde 16 (1/2-1/2)", "Ronde 17 (1/2-1/2)", "Ronde 18 (1/2-1/2)"))]
 
 # Dataframe to add labels of playes with colors
-round_colors = unique(combined_df[, .(white,black, move_number=max(move_number)/3), by=round])
-round_colors[, y := 3]
-round_colors[, white:=paste("\u2654", white)]
-round_colors[, black:=paste("\u265A", black)]
+# round_colors = unique(combined_df[, .(white,black, move_number=max(move_number)/3), by=round])
+# round_colors[, y := 3]
+# round_colors[, white:=paste("\u26AA", white)]
+# round_colors[, black:=paste("\u26AB", black)]
 
 # Dataframe to add result
-round_result = combined_df[, .(round, resultat, cp_white, move_number, white, black)]
+round_result = combined_df[, .(resultat, cp_white, move_number, white, black, name_move_numer=max(move_number)/3), by=round]
 round_result[, winner := ifelse(resultat=="1/2-1/2", "Match Nul", ifelse(resultat=="1-0", paste("Victoire", white, sep = "\n"), paste("Victoire", black, sep = "\n")))]
+round_result[, white_result := ifelse(resultat=="1/2-1/2", "Draw", ifelse(resultat=="1-0", "Win", "Lose"))]
+round_result[, black_result := ifelse(resultat=="1/2-1/2", "Draw", ifelse(resultat=="1-0", "Lose", "Win"))]
+
 round_result = round_result[, .SD[c(.N)], by=round]
 round_result[, nudge_y := ifelse(resultat=="0-1", 2, -2)]
-round_result[, round_number_result := paste(round, winner)]
-round_result[, round := factor(round, levels=c("Ronde 1", "Ronde 2", "Ronde 3", "Ronde 4", "Ronde 5", "Ronde 6", "Ronde 7", "Ronde 8", "Ronde 9", "Ronde 10", "Ronde 11", "Ronde 12", "Ronde 13", "Ronde 14", "Ronde 15", "Ronde 16", "Ronde 17", "Ronde 18"))]
+# round_result[, round_number_result := paste(round, winner)]
+round_result[, round := factor(round, levels=c("Ronde 1 (1/2-1/2)", "Ronde 2 (0-1)", "Ronde 3 (1/2-1/2)", "Ronde 4 (1-0)", "Ronde 5 (1-0)", "Ronde 6 (1-0)", "Ronde 7 (1-0)", "Ronde 8 (1/2-1/2)", "Ronde 9 (1/2-1/2)", "Ronde 10 (1/2-1/2)", "Ronde 11 (1/2-1/2)", "Ronde 12 (1-0)", "Ronde 13 (1/2-1/2)", "Ronde 14 (1/2-1/2)", "Ronde 15", "Ronde 16", "Ronde 17", "Ronde 18"))]
+round_result[, white:=paste0("\u26AA ", white, ' (', white_result, ')')]
+round_result[, black:=paste0("\u26AB ", black, ' (', black_result, ')')]
+round_result[, name_y:=4]
 
-combined_df <- merge(combined_df, round_result[, .(round, round_number_result)], by="round")
+
+# combined_df <- merge(combined_df, round_result[, .(round, round_number_result)], by="round")
 
 #Plot
-ggplot(combined_df, aes(x=move_number/2, y = cp_white/100)) +
+ggplot(combined_df[type_game=="classical"], aes(x=move_number/2, y = cp_white/100)) +
   ggh4x::stat_difference(aes(ymin = 0, ymax = cp_white/100), show.legend = F, levels = c("-", "+"), alpha = 0.8) +
   scale_fill_manual(values = c("#EEEED2", 'black', "blue")) +
   geom_line(aes(y = cp_white/100)) +
@@ -77,16 +86,17 @@ ggplot(combined_df, aes(x=move_number/2, y = cp_white/100)) +
   theme_minimal() + 
   xlab("Numéro de coup") + ylab("Evaluation (Sotckfish 14)") + 
   facet_wrap(~round, scales = "free_x") + 
-  geom_text(aes(move_number/2, y, label=white),
-            data=round_colors) +
-  geom_text(aes(move_number/2, -y, label=black),
-            data=round_colors) +
-  geom_label_repel(aes(move_number/2, cp_white/100, label = winner), data=round_result, nudge_y = -2, nudge_x=15)+
+  geom_text(aes(name_move_numer/2, name_y, label=white),
+            data=round_result) +
+  geom_text(aes(name_move_numer/2, -name_y, label=black),
+            data=round_result) +
+  # geom_label_repel(aes(move_number/2, cp_white/100, label = winner), data=round_result, nudge_y = -2, nudge_x=15)+
   coord_cartesian(clip = "off") + 
   theme(
     strip.text.x = element_text(
       size = 10, face = "bold.italic"
-    ))
+    )) + 
+  ggtitle("Championnat du Monde 2023 - Classical Games : Ian Nepomniachtchi 7-7 Ding Liren")
 
 #Save last plot to png
 ggsave("./output/games_championnat_monde_23.png", width = 1200, height = 675, units = "px", bg = "white", scale = 3)
