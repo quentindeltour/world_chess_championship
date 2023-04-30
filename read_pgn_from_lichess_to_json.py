@@ -13,7 +13,7 @@ pgn_file = urllib.request.urlopen(url)
 pgn_data = io.TextIOWrapper(pgn_file, encoding='utf-8', errors='ignore')
 
 dic = defaultdict(dict)
-for nb_game in range(1,15):
+for nb_game in range(1,19):
     game = chess.pgn.read_game(pgn_data)
     if game is None:
         pass  # end of file
@@ -21,7 +21,7 @@ for nb_game in range(1,15):
         if nb_game<15:
             type_game = "classical"
         if (nb_game>14) & (nb_game<19):
-            type_game = "tiebreak rapid"
+            type_game = "tiebreak"
         event = game.headers.get("Event")
         white = res =  ' '.join(game.headers.get("White").split(", ")[::-1])
         black = res =  ' '.join(game.headers.get("Black").split(", ")[::-1])
