@@ -4,13 +4,8 @@ Visualisation of world chess championships
 
 ## 2023 Championship :
 
-Ding Liren ![China flag](https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/cn.png) faces Ian Nepomniachtchi ![Russian flag](https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/ru.png) for the World 2023 Chess Championships. This matchs took place in Astana (![Kazakh flag](https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/kz.png)) in the month of April 2023.
+Ding Liren <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/cn.png" width="15" height="10"> faces Ian Nepomniachtchi <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/ru.png" width="15" height="10"> for the World 2023 Chess Championships. This matchs took place in Astana <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/kz.png" width="15" height="10"> in the month of April 2023.
 
-<img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/cn.png">
-
-<img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/ru.png">
-
-<img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/kz.png">
 
 After the 14 games of classical, the match was tied 7 to 7 as both player went back and forth with decisive results. 
 
@@ -20,5 +15,5 @@ Tiebreaks then took place, with 4 games with a Rapid time control (25+10 for eac
 
 ![Tiebreaks Games](./output/tiebreaks_games_championnat_monde_23.png?raw=true)
 
-Congratulations to Ding ! ![China flag](https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/cn.png)
+Congratulations to Ding ! <img src="https://github.com/csmoore/country-flag-icons/blob/master/country-flags-4x3-png/cn.png" width="15" height="10">
 
